@@ -8,8 +8,7 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: ApiProvider(api: Api(),
-    child: const HomePage()),
+    home: ApiProvider(api: Api(), child: const HomePage()),
   ));
 }
 
@@ -20,15 +19,15 @@ class ApiProvider extends InheritedWidget {
   ApiProvider({Key? key, required this.api, required Widget child})
       : uuid = const Uuid().v4(),
         super(key: key, child: child);
-        
-          @override
-          bool updateShouldNotify(covariant ApiProvider oldWidget) {
-            return uuid != oldWidget.uuid;
-          }
 
-    static ApiProvider of(BuildContext context){
-      return context.dependOnInheritedWidgetOfExactType<ApiProvider>()!;
-    }
+  @override
+  bool updateShouldNotify(covariant ApiProvider oldWidget) {
+    return uuid != oldWidget.uuid;
+  }
+
+  static ApiProvider of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ApiProvider>()!;
+  }
 }
 
 class HomePage extends StatefulWidget {
@@ -50,13 +49,12 @@ class _HomePageState extends State<HomePage> {
       ),
       body: GestureDetector(
         onTap: () async {
-          
-            final api = ApiProvider.of(context).api;
-            final dateAndTime = await api.getDateAndTime();
+          final api = ApiProvider.of(context).api;
+          final dateAndTime = await api.getDateAndTime();
 
-            setState(() {
-              _textKey = ValueKey(dateAndTime);
-            });
+          setState(() {
+            _textKey = ValueKey(dateAndTime);
+          });
         },
         child: SizedBox.expand(
           child: Container(
@@ -69,19 +67,15 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class DateTimeWidget extends StatelessWidget{
-  const DateTimeWidget({Key? key}): super(key: key);
-  
+class DateTimeWidget extends StatelessWidget {
+  const DateTimeWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     final api  = ApiProvider.of(context).api;
+    final api = ApiProvider.of(context).api;
     return Text(api.dateAndTime ?? "Tap on screen to fetch date on time");
   }
-  
 }
-
-
 
 class Api {
   String? dateAndTime;
