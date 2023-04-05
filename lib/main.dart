@@ -29,8 +29,6 @@ class ApiProvider extends InheritedWidget {
     static ApiProvider of(BuildContext context){
       return context.dependOnInheritedWidgetOfExactType<ApiProvider>()!;
     }
-    
-      getDateAndTime() {}
 }
 
 class HomePage extends StatefulWidget {
@@ -53,15 +51,18 @@ class _HomePageState extends State<HomePage> {
       body: GestureDetector(
         onTap: () async {
           
-            final api = ApiProvider.of(context);
+            final api = ApiProvider.of(context).api;
             final dateAndTime = await api.getDateAndTime();
 
             setState(() {
               _textKey = ValueKey(dateAndTime);
             });
         },
-        child: Container(
-          color: Colors.white,
+        child: SizedBox.expand(
+          child: Container(
+            color: Colors.white,
+            child: DateTimeWidget(key: _textKey),
+          ),
         ),
       ),
     );
